@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ToasterProvider from "@/components/ToasterProvider";
-
+import AuthToast from "@/components/AuthToast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,6 +35,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <ToasterProvider />
+<AuthToast />
       </body>
     </html>
   );

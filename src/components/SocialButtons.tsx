@@ -38,12 +38,15 @@ const GithubIcon = () => (
 
 const SocialButtons = () => {
   const handleSocial = async (provider: "google" | "github") => {
+    sessionStorage.setItem("auth-toast", "সফলভাবে সাইন ইন হয়েছে");
+
     const { error } = await authClient.signIn.social({
       provider,
       callbackURL: "/",
     });
 
     if (error) {
+      sessionStorage.removeItem("auth-toast");
       toast.error("সোশ্যাল লগইন করা যায়নি, আবার চেষ্টা করুন");
     }
   };
