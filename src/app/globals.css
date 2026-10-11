@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "@heroui/styles"; 
+@plugin "daisyui" {
+  themes: light --default;
+}
 
 @keyframes marquee-scroll {
   from {
@@ -16,12 +19,11 @@
   animation: marquee-scroll 60s linear infinite;
 }
 
-/* মাউস নিলে থেমে যাবে */
+
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* যাদের সিস্টেমে animation কমানো আছে, তাদের জন্য */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;

@@ -1,59 +1,69 @@
+import { Category } from "@/types/category";
+import { Product } from "@/types/product";
+
 const BASE_URL = "https://api.api-store.workers.dev/api/bazardor";
 
-export async function getProducts() {
-  const response = await fetch(`${BASE_URL}/products`);
+async function fetchList<T>(
+  path: string,
+  revalidate: number
+): Promise<T[]> {
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, {
+      next: { revalidate },
+    });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
+    if (!res.ok) {
+      throw new Error(`Request failed: ${res.status}`);
+    }
+
+    const result = await res.json();
+
+    if (Array.isArray(result)) {
+      return result;
+    }
+
+    if (Array.isArray(result.data)) {
+      return result.data;
+    }
+
+    if (Array.isArray(result.products)) {
+      return result.products;
+    }
+
+    if (Array.isArray(result.categories)) {
+      return result.categories;
+    }
+
+    return [];
+  } catch (error) {
+    console.error(`Failed to load ${path}:`, error);
+    return [];
   }
-
-  return response.json();
 }
 
+export const getCategories = () =>
+  fetchList<Category>("/categories", 3600);
 
-export async function getProductsByCategory(category: string) {
-  const response = await fetch(
-    `${BASE_URL}/products?category=${encodeURIComponent(category)}`
+export const getProducts = () =>
+  fetchList<Product>("/products", 600);
+
+export async function getProductBySlug(slug: string) {
+  const products = await getProducts();
+
+  return products.find((product) => product.slug === slug) ?? null;
+}
+
+export async function getProductsByCategory(slug: string) {
+  const products = await fetchList<Product>(
+    `/products?category=${encodeURIComponent(slug)}`,
+    600
   );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch category products");
+  if (products.length > 0) {
+    return products;
   }
 
-  return response.json();
-}
+  const allProducts = await getProducts();
 
-
-export async function getProductById(id: string | number) {
-  const response = await fetch(`${BASE_URL}/products/${id}`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch product details");
-  }
-
-  return response.json();
-}
-
-
-export async function getCategories() {
-  const response = await fetch(`${BASE_URL}/categories`);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch categories");
-  }
-
-  return response.json();
-}
-
-
-export async function getCategoryBySlug(slug: string) {
-  const response = await fetch(
-    `${BASE_URL}/categories/${encodeURIComponent(slug)}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch category");
-  }
-
-  return response.json();
+  return allProducts.filter((product) => product.category === slug);
 }

@@ -1,84 +1,49 @@
-interface Product {
-  id: number;
-  nameBn: string;
-  unit: string;
-  image: string;
-  today: number;
-  change: {
-    dir: "up" | "down" | "flat";
-    pct: number;
-  };
-}
-
-const unitBn: Record<string, string> = {
-  kg: "কেজি",
-  litre: "লিটার",
-  dozen: "ডজন",
-  piece: "পিস",
-};
-
-const toBn = (n: number) => n.toLocaleString("bn-BD");
-
-const changeStyle = {
-  up: { icon: "▲", color: "text-red-600" }, // দাম বেড়েছে
-  down: { icon: "▼", color: "text-green-600" }, // দাম কমেছে
-  flat: { icon: "–", color: "text-gray-500" },
-};
+import { getProducts } from "@/lib/api";
+import { toBn, unitBn } from "@/lib/format";
 
 const PriceMarquee = async () => {
-  let products: Product[] = [];
+  const products = await getProducts();
 
-  try {
-    const res = await fetch(
-      "https://api.api-store.workers.dev/api/bazardor/products",
-      { next: { revalidate: 600 } }
-    );
-
-    if (!res.ok) {
-      throw new Error(`API Error: ${res.status}`);
-    }
-
-    const data = await res.json();
-    products = Array.isArray(data) ? data : [];
-  } catch (error) {
-    console.error("Products fetch failed:", error);
+  if (products.length === 0) {
+    return null;
   }
 
-  if (products.length === 0) return null;
-
-  const items = products.map((p) => {
-    const style = changeStyle[p.change.dir];
-
-    return (
-      <span
-        key={p.id}
-        className="mr-8 inline-flex shrink-0 items-center gap-1.5 text-xs sm:text-sm"
-      >
-        <span>{p.image}</span>
-        <span className="font-semibold text-gray-800">{p.nameBn}</span>
-        <span className="text-gray-600">
-          {toBn(p.today)} টাকা/{unitBn[p.unit] ?? p.unit}
-        </span>
-        <span className={`font-medium ${style.color}`}>
-          {style.icon} {toBn(Math.abs(p.change.pct))}%
-        </span>
-      </span>
-    );
-  });
+  const items = [...products, ...products];
 
   return (
-    <div className="border-b border-gray-200 bg-green-50">
-      <div className="mx-auto flex max-w-6xl items-center">
+    <div className="marquee overflow-hidden border-y border-gray-200 bg-green-50 py-3">
+      <div className="marquee-track items-center gap-8">
+        {items.map((product, index) => (
+          <div
+            key={`${product.id}-${index}`}
+            className="flex shrink-0 items-center gap-2 text-sm"
+          >
+            <span>{product.categoryIcon || "🛒"}</span>
 
+            <span className="font-medium text-gray-800">{product.nameBn}</span>
 
-        <div className="marquee relative flex-1 overflow-hidden py-2 pl-3">
-          <div className="marquee-track">
-            <div className="flex shrink-0">{items}</div>
-            <div className="flex shrink-0" aria-hidden="true">
-              {items}
-            </div>
+            <span className="font-bold text-gray-900">
+              ৳{toBn(product.today)}/{unitBn(product.unit)}
+            </span>
+
+            <span
+              className={
+                product.change.dir === "up"
+                  ? "font-semibold text-red-600"
+                  : product.change.dir === "down"
+                    ? "font-semibold text-green-700"
+                    : "font-semibold text-gray-500"
+              }
+            >
+              {product.change.dir === "up"
+                ? "▲"
+                : product.change.dir === "down"
+                  ? "▼"
+                  : "—"}{" "}
+              {toBn(Math.abs(product.change.pct))}%
+            </span>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
