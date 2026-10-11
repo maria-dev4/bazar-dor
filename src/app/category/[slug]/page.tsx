@@ -22,8 +22,10 @@ async function CategoryContent({ params }: Props) {
 
 export default function CategoryPage({ params }: Props) {
   return (
-    <Suspense fallback={<ProductGridSkeleton />}>
-      <CategoryContent params={params} />
-    </Suspense>
+    <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+      <Suspense fallback={<ProductGridSkeleton />}>
+        <CategoryContent params={params} />
+      </Suspense>
+    </main>
   );
 }
