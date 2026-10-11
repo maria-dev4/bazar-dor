@@ -3,11 +3,10 @@ import { Product } from "@/types/product";
 import { toBn, toBnFixed, unitBn } from "@/lib/format";
 
 const trends = {
-  up: { icon: "▲", style: "bg-green-50 text-green-700" },
-  down: { icon: "▼", style: "bg-red-50 text-red-600" },
+  up: { icon: "▲", style: "bg-red-50 text-red-600" },
+  down: { icon: "▼", style: "bg-green-50 text-green-700" },
   flat: { icon: "—", style: "bg-gray-100 text-gray-500" },
 };
-
 const ProductCard = ({ product }: { product: Product }) => {
   const { slug, nameBn, image, today, unit, change } = product;
   const trend = trends[change.dir];

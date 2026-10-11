@@ -11,12 +11,12 @@ const Header = () => {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Image
-            src="/logo-icon.png"
+            src="/logo-icon-hd.png"
             alt="Bazar dor Logo"
             width={48}
             height={48}
             priority
-            className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+            className="h-10 w-10 bg-green-400 shrink-0 object-contain sm:h-12 sm:w-12"
           />
 
           <div className="min-w-0">
