@@ -1,7 +1,8 @@
+
 import { Category } from "@/types/category";
 import { Product } from "@/types/product";
 
-const BASE_URL = "https://api.api-store.workers.dev/api/bazardor";
+const BASE_URL = "https://openapi.programming-hero.com/api/bazardor";
 
 async function fetchList<T>(
   path: string,
@@ -44,6 +45,31 @@ async function fetchList<T>(
 export const getCategories = () =>
   fetchList<Category>("/categories", 3600);
 
+export async function getCategoryBySlug(slug: string) {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/categories/${encodeURIComponent(slug)}`,
+      { cache: "no-store" }
+    );
+
+    if (res.ok) {
+      const result = await res.json();
+      const category = result.data ?? result.category ?? result;
+
+      if (category && category.slug) {
+        return category as Category;
+      }
+    }
+  } catch (error) {
+    console.error("Category API error:", error);
+  }
+
+  const categories = await getCategories();
+
+  return categories.find(
+    (item) => item.slug === slug || String(item.id) === slug
+  ) ?? null;
+}
 export const getProducts = () =>
   fetchList<Product>("/products", 600);
 

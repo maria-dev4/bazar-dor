@@ -16,16 +16,15 @@ const Banner = () => {
           </h2>
 
           <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">
-            চাল, ডাল, তেল, সবজি, মাছ ও মাংসের দাম দেখুন এক জায়গায়।
-            গতকালের তুলনায় কোন পণ্যের দাম বাড়ল আর কোনটার কমল,
-            সহজেই বুঝে নিন।
+            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত,
+  গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
           </p>
 
           <a
   href="#all-products"
   className="mt-6 inline-flex items-center justify-center rounded-lg bg-green-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-800"
 >
-  দাম দেখুন
+  সব পণ্য দেখুন
 </a>
         </div>
 

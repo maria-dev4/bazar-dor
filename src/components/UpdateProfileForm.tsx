@@ -33,29 +33,36 @@ const UpdateProfileForm = ({ currentName }: { currentName: string }) => {
   };
 
   return (
-    <div className="mx-auto my-10 w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-      <h1 className="text-xl font-extrabold text-gray-900">তথ্য আপডেট করুন</h1>
+    <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10">
+      <h1 className="text-2xl font-extrabold text-gray-900">আমার প্রোফাইল</h1>
+      <p className="mt-1 text-sm text-gray-500">
+        আপনার অ্যাকাউন্টের তথ্য এখানে দেখুন।
+      </p>
 
-      <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
-        <label htmlFor="name" className="text-sm font-medium text-gray-700">
-          নাম
-        </label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="input input-bordered w-full"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn btn-sm w-full border-none bg-green-700 text-white hover:bg-green-800 sm:btn-md"
-        >
-          তথ্য আপডেট করুন
-        </button>
-      </form>
-    </div>
+      <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5">
+        <h2 className="text-base font-bold text-gray-900">তথ্য</h2>
+
+        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
+          <label htmlFor="name" className="text-sm font-medium text-gray-700">
+            নাম
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="input input-bordered w-full bg-white"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-sm w-full border-none bg-green-700 text-white hover:bg-green-800 sm:btn-md"
+          >
+            আপডেট
+          </button>
+        </form>
+      </div>
+    </main>
   );
 };
 
