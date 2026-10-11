@@ -60,7 +60,7 @@ const SignUpForm = () => {
           <input
             id="name"
             type="text"
-            placeholder="যেমন: রহিম উদ্দিন"
+            placeholder="আপনার নাম লিখুন"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="input input-bordered w-full bg-white"

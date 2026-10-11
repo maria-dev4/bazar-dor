@@ -16,7 +16,7 @@ const Header = () => {
             width={48}
             height={48}
             priority
-            className="h-10 w-10 bg-green-400 shrink-0 object-contain sm:h-12 sm:w-12"
+            className="h-10 w-10 bg-green-500 shrink-0 object-contain sm:h-12 sm:w-12"
           />
 
           <div className="min-w-0">
