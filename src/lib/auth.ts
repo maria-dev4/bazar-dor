@@ -13,6 +13,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export const auth = betterAuth({
+
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "https://bazar-dor-maria-8854.vercel.app",
+    "http://localhost:3000",
+  ],
   database: mongodbAdapter(client.db(), { client }),
   emailAndPassword: {
     enabled: true,
